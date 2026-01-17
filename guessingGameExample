@@ -1,0 +1,79 @@
+import java.util.Random;
+import java.util.Scanner;
+// Step 1: Game class
+class Game {
+    // Data
+    private int number;       // Random number to guess
+    private int guessNumber;  // User's guess
+    private int counter;      // Number of guesses
+    // Methods
+    public void generateNumberToBeGuessed() {
+        Random rand = new Random();
+        number = rand.nextInt(100) + 1; // Random number between 1-100
+        counter = 0; // Reset counter for a new game
+    }
+    public void makeGuess(int guessNumber) {
+        this.guessNumber = guessNumber;
+        counter++;
+    }
+    public boolean isCorrectGuess() {
+        return guessNumber == number;
+    }
+    public void displayWelcomeMessage() {
+        System.out.println("Welcome to the Number Guessing Game!");
+        System.out.println("Try to guess the number between 1 and 100.");
+    }
+    public void displayPleaseGuessMessage() {
+        System.out.print("Enter your guess: ");
+    }
+    public void displayCorrectGuessMessage() {
+        System.out.println("Congratulations! You guessed the correct number: " + number);
+        if (counter <= 3) {
+            System.out.println("Great work! You are a mathematical wizard.");
+        } else if (counter <= 7) {
+            System.out.println("Not too bad! You've got some potential.");
+        } else {
+            System.out.println("What took you so long?");
+        }
+    }
+    public void displayGuessAgainMessage() {
+        int difference = guessNumber - number;
+        if (difference > 10) {
+            System.out.println("Way too high! Guess again.");
+        } else if (difference > 0) {
+            System.out.println("Too high! Guess again.");
+        } else if (difference < -10) {
+            System.out.println("Way too low! Guess again.");
+        } else {
+            System.out.println("Too low! Guess again.");
+        }
+    }
+}
+// Step 2: Test class
+public class GuessNumberApp {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Game game = new Game();
+        game.displayWelcomeMessage();
+        String playAgain = "y";
+        while (playAgain.equalsIgnoreCase("y")) {
+            game.generateNumberToBeGuessed();
+            game.displayPleaseGuessMessage();
+            boolean correct = false;
+            while (!correct) {
+                int userGuess = scanner.nextInt();
+                game.makeGuess(userGuess);
+                if (game.isCorrectGuess()) {
+                    game.displayCorrectGuessMessage();
+                    correct = true;
+                } else {
+                    game.displayGuessAgainMessage();
+                }
+            }
+            System.out.print("Do you want to play again? (y/n): ");
+            playAgain = scanner.next();
+        }
+        System.out.println("Thanks for playing!");
+        scanner.close();
+    }
+}
