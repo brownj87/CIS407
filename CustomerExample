@@ -66,10 +66,15 @@ public class Customer {
     }
     @Override
     public String toString() {
-        return "Customer ID: " + customerId + "\n" +
-               "Name: " + firstName + " " + lastName + "\n" +
-               "SSN: " + ssn + "\n" +
-               "Address: " + street + ", " + city + ", " + state + " " + zip + "\n" +
-               "Phone: " + phone;
+        return
+            "Customer ID      : " + customerId + "\n" +
+            "First Name       : " + firstName + "\n" +
+            "Last Name        : " + lastName + "\n" +
+            "SSN              : " + ssn + "\n" +
+            "Street           : " + street + "\n" +
+            "City             : " + city + "\n" +
+            "State            : " + state + "\n" +
+            "Zip Code         : " + zip + "\n" +
+            "Phone Number     : " + phone;
     }
 }
