@@ -1,0 +1,40 @@
+import java.util.Scanner;
+public class CountriesListApp {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        // a. Make an instance of the CountriesList class
+        CountriesList countriesList = new CountriesList();
+        // b. Display a welcome message
+        countriesList.displayWelcomeMessage();
+        int choice = 0;
+        // d. Create a while loop for menu choices
+        while (choice != 3) {
+            // c. Display menu
+            countriesList.displayMenu();
+            choice = countriesList.getMenuOption(input);
+            switch (choice) {
+                case 1:
+                    // Display countries
+                    countriesList.listCountries();
+                    break;
+                case 2:
+                    // Add a country
+                    System.out.print("Enter a country name: ");
+                    String country = input.nextLine();
+                    if (countriesList.checkForCountry(country)) {
+                        System.out.println("That country already exists in the list.");
+                    } else {
+                        countriesList.addCountry(country);
+                    }
+                    break;
+                case 3:
+                    // Exit program
+                    System.out.println("Exiting the program. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please choose 1, 2, or 3.");
+            }
+        }
+        input.close();
+    }
+}
