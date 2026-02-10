@@ -14,7 +14,6 @@ public class BankAcctApp {
             Customer cust = new Customer();
             while (true) {
                 try {
-                    // Use simple input methods; length validation handled by setters
                     cust.setCustomerId(DataEntry.getString("Enter Customer ID (max 5): "));
                     cust.setSsn(DataEntry.getNumericString("Enter SSN (9 digits): ", 9));
                     cust.setLastName(DataEntry.getString("Enter Last Name (max 20): "));
@@ -24,7 +23,7 @@ public class BankAcctApp {
                     cust.setState(DataEntry.getString("Enter State (2 characters): "));
                     cust.setZip(DataEntry.getNumericString("Enter Zip Code (5 digits): ", 5));
                     cust.setPhone(DataEntry.getNumericString("Enter Phone Number (10 digits): ", 10));
-                    break; // all input valid, exit loop
+                    break;
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage() + " Please try again.");
                 }
@@ -38,11 +37,11 @@ public class BankAcctApp {
                 try {
                     acct.setAccountNumber(DataEntry.getString("Enter Account Number (max 5): "));
                     acct.setAccountType(DataEntry.getString("Enter Account Type (CHK/SAV): "));
-                    acct.setServiceFee(DataEntry.getDoubleInRange("Enter Service Fee ($0-$10): ", 0, 10));
-                    acct.setInterestRate(DataEntry.getDoubleInRange("Enter Interest Rate (0%-10%): ", 0, 10));
+                    acct.setServiceFee(DataEntry.getDouble("Enter Service Fee ($0-$10): "));
+                    acct.setInterestRate(DataEntry.getDouble("Enter Interest Rate (0%-10%): "));
                     acct.setOverdraftFee(DataEntry.getDouble("Enter Overdraft Fee: "));
                     acct.setBalance(0); // initial balance
-                    break; // account input valid
+                    break;
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage() + " Please try again.");
                 }
@@ -50,6 +49,7 @@ public class BankAcctApp {
             accounts.add(acct);
             // Ask if user wants to add another customer/account
             choice = DataEntry.getString("Add another customer? (Y/N): ");
+
         } while (choice.equalsIgnoreCase("Y"));
         // ---------------------------
         // OUTPUT RESULTS
