@@ -1,0 +1,67 @@
+// Jordan Brown, CIS407, CourseProject
+package courseProject;
+import java.util.ArrayList;
+public class BankAcctApp {
+    public static void main(String[] args) {
+        ArrayList<Customer> customers = new ArrayList<>();
+        ArrayList<Account> accounts = new ArrayList<>();
+        String choice;
+        System.out.println("Welcome to the Course Project Banking Application");
+        do {
+            // ---------------------------
+            // CUSTOMER INPUT WITH VALIDATION
+            // ---------------------------
+            Customer cust = new Customer();
+            while (true) {
+                try {
+                    cust.setCustomerId(DataEntry.getStringWithLength("Enter Customer ID (max 5): ", 5));
+                    cust.setSsn(DataEntry.getNumericString("Enter SSN (9 digits): ", 9));
+                    cust.setLastName(DataEntry.getStringWithLength("Enter Last Name (max 20): ", 20));
+                    cust.setFirstName(DataEntry.getStringWithLength("Enter First Name (max 15): ", 15));
+                    cust.setStreet(DataEntry.getStringWithLength("Enter Street (max 20): ", 20));
+                    cust.setCity(DataEntry.getStringWithLength("Enter City (max 20): ", 20));
+                    cust.setState(DataEntry.getStringWithLength("Enter State (2 characters): ", 2));
+                    cust.setZip(DataEntry.getNumericString("Enter Zip Code (5 digits): ", 5));
+                    cust.setPhone(DataEntry.getNumericString("Enter Phone Number (10 digits): ", 10));
+                    break; // all customer info valid
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage() + " Please try again.");
+                }
+            }
+            customers.add(cust);
+
+            // ---------------------------
+            // ACCOUNT INPUT WITH VALIDATION
+            // ---------------------------
+            Account acct = new Account();
+            while (true) {
+                try {
+                    acct.setAccountNumber(DataEntry.getStringWithLength("Enter Account Number (max 5): ", 5));
+                    acct.setAccountType(DataEntry.getStringWithLength("Enter Account Type (CHK/SAV): ", 3));
+                    acct.setServiceFee(DataEntry.getDoubleInRange("Enter Service Fee ($0-$10): ", 0, 10));
+                    acct.setInterestRate(DataEntry.getDoubleInRange("Enter Interest Rate (0%-10%): ", 0, 10));
+                    acct.setOverdraftFee(DataEntry.getDouble("Enter Overdraft Fee: "));
+                    acct.setBalance(0); // initial balance
+                    break; // all account info valid
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage() + " Please try again.");
+                }
+            }
+            accounts.add(acct);
+            // Ask if user wants to add another customer/account
+            choice = DataEntry.getString("Add another customer? (Y/N): ");
+
+        } while (choice.equalsIgnoreCase("Y"));
+        // ---------------------------
+        // OUTPUT RESULTS
+        // ---------------------------
+        System.out.println("\n========================================");
+        System.out.println("Customer and Account Information Report");
+        System.out.println("========================================");
+        for (int i = 0; i < customers.size(); i++) {
+            System.out.println(customers.get(i));
+            System.out.println(accounts.get(i));
+            System.out.println("----------------------------------------");
+        }
+    }
+}
