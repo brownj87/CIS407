@@ -49,7 +49,6 @@ public class BankAcctApp {
                 catch (Exception e) { System.out.println("Error: " + e.getMessage()); }
             }
             customers.add(cust);
-
             // ---------------------------
             // ACCOUNT INPUT
             // ---------------------------
