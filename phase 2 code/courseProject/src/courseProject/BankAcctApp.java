@@ -1,0 +1,196 @@
+// Jordan Brown, CIS407, CourseProject
+package courseProject;
+import java.util.ArrayList;
+public class BankAcctApp {
+    public static void main(String[] args) {
+        ArrayList<Customer> customers = new ArrayList<>();
+        ArrayList<Account> accounts = new ArrayList<>();
+        String choice;
+        System.out.println("Welcome to the Course Project Banking Application");
+        do {
+            // ---------------------------
+            // CUSTOMER INPUT
+            // ---------------------------
+            Customer cust = new Customer();
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Customer ID (max 5): ");
+                    if (input.isEmpty()) throw new Exception("Customer ID cannot be blank.");
+                    cust.setCustomerId(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter SSN (9 digits): ");
+                    if (input.isEmpty()) throw new Exception("SSN cannot be blank.");
+                    if (!input.matches("\\d{9}")) throw new Exception("SSN must be 9 numeric digits.");
+                    cust.setSsn(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Last Name (max 20): ");
+                    if (input.isEmpty()) throw new Exception("Last Name cannot be blank.");
+                    cust.setLastName(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter First Name (max 15): ");
+                    if (input.isEmpty()) throw new Exception("First Name cannot be blank.");
+                    cust.setFirstName(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Street (max 20): ");
+                    if (input.isEmpty()) throw new Exception("Street cannot be blank.");
+                    cust.setStreet(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter City (max 20): ");
+                    if (input.isEmpty()) throw new Exception("City cannot be blank.");
+                    cust.setCity(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter State (2 characters): ");
+                    if (input.isEmpty()) throw new Exception("State cannot be blank.");
+                    cust.setState(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Zip Code (5 digits): ");
+                    if (input.isEmpty()) throw new Exception("Zip Code cannot be blank.");
+                    if (!input.matches("\\d{5}")) throw new Exception("Zip Code must be 5 numeric digits.");
+                    cust.setZip(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Phone Number (10 digits): ");
+                    if (input.isEmpty()) throw new Exception("Phone Number cannot be blank.");
+                    if (!input.matches("\\d{10}")) throw new Exception("Phone Number must be 10 numeric digits.");
+                    cust.setPhone(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            customers.add(cust);
+            // ---------------------------
+            // ACCOUNT INPUT
+            // ---------------------------
+            Account acct = new Account();
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Account Number (max 5): ");
+                    if (input.isEmpty()) throw new Exception("Account Number cannot be blank.");
+                    acct.setAccountNumber(input);
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Account Type (CHK/SAV): ");
+                    if (input.isEmpty()) throw new Exception("Account Type cannot be blank.");
+                    if (!input.equalsIgnoreCase("CHK") && !input.equalsIgnoreCase("SAV"))
+                        throw new Exception("Account Type must be CHK or SAV.");
+                    acct.setAccountType(input.toUpperCase());
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            // Service Fee
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Service Fee ($0-$10): ");
+                    if (input.isEmpty()) throw new Exception("Service Fee cannot be blank.");
+                    double value = Double.parseDouble(input);
+                    if (value < 0 || value > 10) throw new Exception("Service Fee must be between $0 and $10.");
+                    acct.setServiceFee(value);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Please enter a numeric value for Service Fee.");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            // Interest Rate
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Interest Rate (0%-10%): ");
+                    if (input.isEmpty()) throw new Exception("Interest Rate cannot be blank.");
+                    double value = Double.parseDouble(input);
+                    if (value < 0 || value > 10) throw new Exception("Interest Rate must be between 0% and 10%.");
+                    acct.setInterestRate(value);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Please enter a numeric value for Interest Rate.");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            // Overdraft Fee
+            while (true) {
+                try {
+                    String input = DataEntry.getString("Enter Overdraft Fee: ");
+                    if (input.isEmpty()) throw new Exception("Overdraft Fee cannot be blank.");
+                    double value = Double.parseDouble(input);
+                    acct.setOverdraftFee(value);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Please enter a numeric value for Overdraft Fee.");
+                } catch (Exception e) {
+                    System.out.println("Error: " + e.getMessage());
+                }
+            }
+            acct.setBalance(0); // initial balance
+            accounts.add(acct);
+            choice = DataEntry.getString("Add another customer? (Y/N): ");
+        } while (choice.equalsIgnoreCase("Y"));
+
+        // ---------------------------
+        // OUTPUT RESULTS
+        // ---------------------------
+        System.out.println("\n========================================");
+        System.out.println("Customer and Account Information Report");
+        System.out.println("========================================");
+        for (int i = 0; i < customers.size(); i++) {
+            System.out.println(customers.get(i));
+            System.out.println(accounts.get(i));
+            System.out.println("----------------------------------------");
+        }
+    }
+}

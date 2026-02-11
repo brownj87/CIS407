@@ -1,0 +1,107 @@
+// Jordan Brown, CIS407, CourseProject
+package courseProject;
+public class Customer {
+    private String customerId;
+    private String ssn;
+    private String lastName;
+    private String firstName;
+    private String street;
+    private String city;
+    private String state;
+    private String zip;
+    private String phone;
+    // Customer ID
+    public void setCustomerId(String customerId) throws Exception {
+        if (customerId == null || customerId.isEmpty())
+            throw new Exception("Customer ID cannot be blank.");
+        if (customerId.length() > 5)
+            throw new Exception("Customer ID cannot exceed 5 characters.");
+        this.customerId = customerId;
+    }
+    public String getCustomerId() { return customerId; }
+    // SSN
+    public void setSsn(String ssn) throws Exception {
+        if (ssn == null || ssn.isEmpty())
+            throw new Exception("SSN cannot be blank.");
+        if (!ssn.matches("\\d{9}"))
+            throw new Exception("SSN must be exactly 9 numeric digits.");
+        this.ssn = ssn;
+    }
+    public String getSsn() { return ssn; }
+    // Last Name
+    public void setLastName(String lastName) throws Exception {
+        if (lastName == null || lastName.isEmpty())
+            throw new Exception("Last Name cannot be blank.");
+        if (lastName.length() > 20)
+            throw new Exception("Last Name cannot exceed 20 characters.");
+        this.lastName = lastName;
+    }
+    public String getLastName() { return lastName; }
+    // First Name
+    public void setFirstName(String firstName) throws Exception {
+        if (firstName == null || firstName.isEmpty())
+            throw new Exception("First Name cannot be blank.");
+        if (firstName.length() > 15)
+            throw new Exception("First Name cannot exceed 15 characters.");
+        this.firstName = firstName;
+    }
+    public String getFirstName() { return firstName; }
+    // Street
+    public void setStreet(String street) throws Exception {
+        if (street == null || street.isEmpty())
+            throw new Exception("Street cannot be blank.");
+        if (street.length() > 20)
+            throw new Exception("Street cannot exceed 20 characters.");
+        this.street = street;
+    }
+    public String getStreet() { return street; }
+    // City
+    public void setCity(String city) throws Exception {
+        if (city == null || city.isEmpty())
+            throw new Exception("City cannot be blank.");
+        if (city.length() > 20)
+            throw new Exception("City cannot exceed 20 characters.");
+        this.city = city;
+    }
+    public String getCity() { return city; }
+    // State
+    public void setState(String state) throws Exception {
+        if (state == null || state.isEmpty())
+            throw new Exception("State cannot be blank.");
+        if (state.length() != 2)
+            throw new Exception("State must be exactly 2 characters.");
+        this.state = state.toUpperCase();
+    }
+    public String getState() { return state; }
+    // Zip (numeric)
+    public void setZip(String zip) throws Exception {
+        if (zip == null || zip.isEmpty())
+            throw new Exception("Zip Code cannot be blank.");
+        if (!zip.matches("\\d{5}"))
+            throw new Exception("Zip Code must be exactly 5 numeric digits.");
+        this.zip = zip;
+    }
+    public String getZip() { return zip; }
+    // Phone (numeric)
+    public void setPhone(String phone) throws Exception {
+        if (phone == null || phone.isEmpty())
+            throw new Exception("Phone Number cannot be blank.");
+        if (!phone.matches("\\d{10}"))
+            throw new Exception("Phone Number must be exactly 10 numeric digits.");
+        this.phone = phone;
+    }
+    public String getPhone() { return phone; }
+    @Override
+    public String toString() {
+        return
+            "Customer ID      : " + customerId + "\n" +
+            "First Name       : " + firstName + "\n" +
+            "Last Name        : " + lastName + "\n" +
+            "SSN              : " + ssn + "\n" +
+            "Street           : " + street + "\n" +
+            "City             : " + city + "\n" +
+            "State            : " + state + "\n" +
+            "Zip Code         : " + zip + "\n" +
+            "Phone Number     : " + phone;
+    }
+}

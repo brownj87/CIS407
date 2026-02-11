@@ -1,0 +1,56 @@
+// Jordan Brown, CIS407, CourseProject
+package courseProject;
+public class Account {
+    private String accountNumber;
+    private String accountType; // CHK or SAV
+    private double serviceFee; // 0–10 inclusive
+    private double interestRate; // 0–10%
+    private double overdraftFee;
+    private double balance; // initially 0
+    public void setAccountNumber(String accountNumber) throws Exception {
+        if (accountNumber == null || accountNumber.isEmpty())
+            throw new Exception("Account Number cannot be blank.");
+        if (accountNumber.length() > 5)
+            throw new Exception("Account Number cannot exceed 5 characters.");
+        this.accountNumber = accountNumber;
+    }
+    public String getAccountNumber() { return accountNumber; }
+    public void setAccountType(String accountType) throws Exception {
+        if (accountType == null || accountType.isEmpty())
+            throw new Exception("Account Type cannot be blank.");
+        if (!accountType.equalsIgnoreCase("CHK") && !accountType.equalsIgnoreCase("SAV"))
+            throw new Exception("Account Type must be CHK or SAV.");
+        this.accountType = accountType.toUpperCase();
+    }
+    public String getAccountType() { return accountType; }
+    public void setServiceFee(double serviceFee) throws Exception {
+        if (serviceFee < 0 || serviceFee > 10)
+            throw new Exception("Service Fee must be between $0 and $10.");
+        this.serviceFee = serviceFee;
+    }
+    public double getServiceFee() { return serviceFee; }
+    public void setInterestRate(double interestRate) throws Exception {
+        if (interestRate < 0 || interestRate > 10)
+            throw new Exception("Interest Rate must be between 0% and 10%.");
+        this.interestRate = interestRate;
+    }
+    public double getInterestRate() { return interestRate; }
+    public void setOverdraftFee(double overdraftFee) throws Exception {
+        if (overdraftFee < 0)
+            throw new Exception("Overdraft Fee cannot be negative.");
+        this.overdraftFee = overdraftFee;
+    }
+    public double getOverdraftFee() { return overdraftFee; }
+    public void setBalance(double balance) { this.balance = balance; }
+    public double getBalance() { return balance; }
+    @Override
+    public String toString() {
+        return
+            "Account Number   : " + accountNumber + "\n" +
+            "Account Type     : " + accountType + "\n" +
+            "Service Fee      : $" + serviceFee + "\n" +
+            "Interest Rate    : " + interestRate + "%\n" +
+            "Overdraft Fee    : $" + overdraftFee + "\n" +
+            "Balance          : $" + balance;
+    }
+}
