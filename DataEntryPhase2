@@ -1,0 +1,73 @@
+// Jordan Brown, CIS407, CourseProject
+package courseProject;
+import java.util.Scanner;
+public class DataEntry {
+    private static Scanner sc = new Scanner(System.in);
+  // a. String with no limit (can be blank now; setter handles blank validation)
+    public static String getString(String prompt) {
+        System.out.print(prompt);
+        return sc.nextLine().trim();
+    }
+    // b. String with length limit
+    public static String getStringWithLength(String prompt, int maxLength) {
+        String input;
+        do {
+            System.out.print(prompt);
+            input = sc.nextLine().trim();
+        } while (input.length() > maxLength); // allow blank; setter handles blank
+        return input;
+    }
+    // c. Numeric string only (exact length)
+    public static String getNumericString(String prompt, int length) {
+        String input;
+        do {
+            System.out.print(prompt);
+            input = sc.nextLine().trim();
+        } while (!input.matches("\\d{" + length + "}")); // allow blank? not needed; setter handles blank
+        return input;
+    }
+    // d. Integer
+    public static int getInt(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (sc.hasNextInt()) {
+                int value = sc.nextInt();
+                sc.nextLine();
+                return value;
+            }
+            sc.nextLine();
+        }
+    }
+    // e. Integer with range
+    public static int getIntInRange(String prompt, int min, int max) {
+        int value;
+        do {
+            value = getInt(prompt);
+        } while (value < min || value > max);
+        return value;
+    }
+    // f. Decimal
+    public static double getDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (sc.hasNextDouble()) {
+                double value = sc.nextDouble();
+                sc.nextLine();
+                return value;
+            }
+            sc.nextLine();
+        }
+    }
+    // g. Decimal with range
+    public static double getDoubleInRange(String prompt, double min, double max) {
+        double value;
+        do {
+            value = getDouble(prompt);
+        } while (value < min || value > max);
+        return value;
+    }
+    // h. Date (basic string input for Phase 1)
+    public static String getDate(String prompt) {
+        return getString(prompt);
+    }
+}
