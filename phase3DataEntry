@@ -13,12 +13,11 @@ public class DataEntry {
     public static double getDouble(String prompt) {
         while (true) {
             System.out.print(prompt);
-            if (sc.hasNextDouble()) {
-                double value = sc.nextDouble();
-                sc.nextLine();
-                return value;
+            try {
+                return Double.parseDouble(sc.nextLine().trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid data type, please try again.");
             }
-            sc.nextLine();
         }
     }
 }
