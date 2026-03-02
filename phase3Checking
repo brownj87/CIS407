@@ -1,30 +1,30 @@
 package courseProject;
 
 public class CheckingAccount extends Account {
+    private static final double SERVICE_FEE = 0.50;
+    private static final double OVERDRAFT_FEE = 30.00;
+    private static final double INTEREST_RATE = 0.02; // 2%
 
-    public CheckingAccount() {
-        setServiceFee(0.5);
-        setInterestRate(2);
+    @Override
+    public void deposit(double amount) throws Exception {
+        if (amount <= 0) throw new Exception("Invalid deposit amount.");
+        setBalance(getBalance() + amount - SERVICE_FEE);
     }
 
     @Override
-    public void deposit(double amount) {
-        setBalance(getBalanceValue() + amount - getServiceFee());
-    }
-
-    @Override
-    public void withdrawal(double amount) {
-        double newBalance = getBalanceValue() - amount - getServiceFee();
-        if (newBalance < 0) newBalance -= 30; // overdraft fee
+    public void withdrawal(double amount) throws Exception {
+        if (amount <= 0) throw new Exception("Invalid withdrawal amount.");
+        double newBalance = getBalance() - amount - SERVICE_FEE;
+        if (newBalance < 0) newBalance -= OVERDRAFT_FEE;
         setBalance(newBalance);
     }
 
     @Override
     public double balance() {
-        return getBalanceValue();
+        return getBalance() + getBalance() * INTEREST_RATE;
     }
 
-    public void addInterest() {
-        setBalance(getBalanceValue() + getBalanceValue() * getInterestRate() / 100);
+    public double getInterestRate() {
+        return INTEREST_RATE;
     }
 }
