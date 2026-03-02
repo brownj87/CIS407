@@ -9,4 +9,16 @@ public class DataEntry {
         System.out.print(prompt);
         return sc.nextLine().trim();
     }
+
+    public static double getDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            if (sc.hasNextDouble()) {
+                double value = sc.nextDouble();
+                sc.nextLine();
+                return value;
+            }
+            sc.nextLine();
+        }
+    }
 }
