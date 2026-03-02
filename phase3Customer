@@ -4,7 +4,6 @@ public class Customer {
     private String customerId;
     private String firstName;
     private String lastName;
-    private String ssn;
 
     public void setCustomerId(String customerId) throws Exception {
         if (customerId == null || customerId.isEmpty())
@@ -17,30 +16,23 @@ public class Customer {
     public String getCustomerId() { return customerId; }
 
     public void setFirstName(String firstName) throws Exception {
-        if (firstName == null || firstName.isEmpty()) throw new Exception("First Name cannot be blank.");
-        if (firstName.length() > 15) throw new Exception("First Name cannot exceed 15 characters.");
+        if (firstName == null || firstName.isEmpty())
+            throw new Exception("First Name cannot be blank.");
         this.firstName = firstName;
     }
 
     public String getFirstName() { return firstName; }
 
     public void setLastName(String lastName) throws Exception {
-        if (lastName == null || lastName.isEmpty()) throw new Exception("Last Name cannot be blank.");
-        if (lastName.length() > 20) throw new Exception("Last Name cannot exceed 20 characters.");
+        if (lastName == null || lastName.isEmpty())
+            throw new Exception("Last Name cannot be blank.");
         this.lastName = lastName;
     }
 
     public String getLastName() { return lastName; }
 
-    public void setSsn(String ssn) throws Exception {
-        if (ssn == null || !ssn.matches("\\d{9}")) throw new Exception("SSN must be 9 numeric digits.");
-        this.ssn = ssn;
-    }
-
-    public String getSsn() { return ssn; }
-
     @Override
     public String toString() {
-        return "Customer ID: " + customerId + ", Name: " + firstName + " " + lastName + ", SSN: " + ssn;
+        return customerId + ": " + firstName + " " + lastName;
     }
 }
