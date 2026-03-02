@@ -1,0 +1,12 @@
+package courseProject;
+
+import java.util.Scanner;
+
+public class DataEntry {
+    private static Scanner sc = new Scanner(System.in);
+
+    public static String getString(String prompt) {
+        System.out.print(prompt);
+        return sc.nextLine().trim();
+    }
+}
