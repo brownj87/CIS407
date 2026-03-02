@@ -1,0 +1,23 @@
+package animalCounter;
+
+
+public class Alligator extends Animal implements Countable {
+
+    private Sheep sheep;
+
+    public Alligator(Sheep sheep) {
+        count = 0;
+        this.sheep = sheep;
+    }
+
+    @Override
+    public void incrementCount() {
+        count += 1; // Add 1 alligator
+
+        // Deduct 1 sheep if available
+        if (sheep.getCount() > 0) {
+            sheep.count -= 1;
+        }
+    }
+}
+

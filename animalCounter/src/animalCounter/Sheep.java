@@ -1,0 +1,14 @@
+package animalCounter;
+
+
+public class Sheep extends Animal implements Countable {
+
+    public Sheep() {
+        count = 0;
+    }
+
+    @Override
+    public void incrementCount() {
+        count += 2; // Add 2 sheep
+    }
+}
