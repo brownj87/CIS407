@@ -1,21 +1,19 @@
 package courseProject;
 
 public class SavingsAccount extends Account {
-    private final double TRANSACTION_FEE = 0.25;
-    private final double INTEREST_RATE = 0.05; // 5%
+    private static final double SERVICE_FEE = 0.25;
+    private static final double INTEREST_RATE = 0.05;
 
     @Override
-    public void deposit(double amount) throws Exception {
-        if (amount <= 0) throw new Exception("Deposit must be positive.");
-        setBalance(getBalance() + amount - TRANSACTION_FEE);
+    public void deposit(double amount) {
+        setBalance(getBalance() + amount - SERVICE_FEE);
     }
 
     @Override
     public void withdrawal(double amount) throws Exception {
-        if (amount <= 0) throw new Exception("Withdrawal must be positive.");
-        if (amount + TRANSACTION_FEE > getBalance())
-            throw new Exception("Insufficient funds. Savings cannot go negative.");
-        setBalance(getBalance() - amount - TRANSACTION_FEE);
+        if (getBalance() - amount - SERVICE_FEE < 0)
+            throw new Exception("Insufficient funds in Savings Account.");
+        setBalance(getBalance() - amount - SERVICE_FEE);
     }
 
     @Override
