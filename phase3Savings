@@ -1,27 +1,32 @@
 package courseProject;
 
 public class SavingsAccount extends Account {
-    private static final double SERVICE_FEE = 0.25;
-    private static final double INTEREST_RATE = 0.05;
 
-    @Override
-    public void deposit(double amount) {
-        setBalance(getBalance() + amount - SERVICE_FEE);
+    public SavingsAccount() {
+        setServiceFee(0.25);
+        setInterestRate(5);
     }
 
     @Override
-    public void withdrawal(double amount) throws Exception {
-        if (getBalance() - amount - SERVICE_FEE < 0)
-            throw new Exception("Insufficient funds in Savings Account.");
-        setBalance(getBalance() - amount - SERVICE_FEE);
+    public void deposit(double amount) {
+        setBalance(getBalanceValue() + amount - getServiceFee());
+    }
+
+    @Override
+    public void withdrawal(double amount) {
+        if (amount + getServiceFee() > getBalanceValue()) {
+            System.out.println("Cannot withdraw more than balance for Savings Account.");
+        } else {
+            setBalance(getBalanceValue() - amount - getServiceFee());
+        }
     }
 
     @Override
     public double balance() {
-        return getBalance();
+        return getBalanceValue();
     }
 
     public void addInterest() {
-        setBalance(getBalance() + getBalance() * INTEREST_RATE);
+        setBalance(getBalanceValue() + getBalanceValue() * getInterestRate() / 100);
     }
 }
