@@ -6,33 +6,20 @@ public class Customer {
     private String lastName;
 
     public void setCustomerId(String customerId) throws Exception {
-        if (customerId == null || customerId.isEmpty())
-            throw new Exception("Customer ID cannot be blank.");
-        if (customerId.length() > 5)
-            throw new Exception("Customer ID cannot exceed 5 characters.");
+        if (customerId == null || customerId.isEmpty()) throw new Exception("Customer ID cannot be blank.");
         this.customerId = customerId;
     }
-
     public String getCustomerId() { return customerId; }
 
     public void setFirstName(String firstName) throws Exception {
-        if (firstName == null || firstName.isEmpty())
-            throw new Exception("First Name cannot be blank.");
+        if (firstName == null || firstName.isEmpty()) throw new Exception("First Name cannot be blank.");
         this.firstName = firstName;
     }
-
     public String getFirstName() { return firstName; }
 
     public void setLastName(String lastName) throws Exception {
-        if (lastName == null || lastName.isEmpty())
-            throw new Exception("Last Name cannot be blank.");
+        if (lastName == null || lastName.isEmpty()) throw new Exception("Last Name cannot be blank.");
         this.lastName = lastName;
     }
-
     public String getLastName() { return lastName; }
-
-    @Override
-    public String toString() {
-        return customerId + ": " + firstName + " " + lastName;
-    }
 }
