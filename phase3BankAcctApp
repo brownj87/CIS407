@@ -92,10 +92,13 @@ public class BankAcctApp {
                     }
                 }
 
+                // --- Transaction date ---
+                String date = DataEntry.getString("Enter transaction date (YYYY-MM-DD): ");
+
                 // --- Apply transaction ---
                 try {
-                    if (transType.equals("DEP")) acct.deposit(amount);
-                    else acct.withdrawal(amount);
+                    if (transType.equals("DEP")) acct.deposit(amount, date);
+                    else acct.withdrawal(amount, date);
 
                     System.out.printf("Transaction complete. Current Balance: %.2f\n", acct.getBalance());
                 } catch (Exception e) {
