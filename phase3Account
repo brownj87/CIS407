@@ -1,9 +1,10 @@
 package courseProject;
 
-public abstract class Account implements AccountInterface {
+public abstract class Account {
     private String accountNumber;
     private double balance;
 
+    // Getters and setters
     public void setAccountNumber(String accountNumber) throws Exception {
         if (accountNumber == null || accountNumber.isEmpty())
             throw new Exception("Account Number cannot be blank.");
@@ -11,14 +12,19 @@ public abstract class Account implements AccountInterface {
             throw new Exception("Account Number cannot exceed 5 characters.");
         this.accountNumber = accountNumber;
     }
+
     public String getAccountNumber() { return accountNumber; }
 
-    // FIX: make public
+    public void setBalance(double balance) { this.balance = balance; }
     public double getBalance() { return balance; }
 
-    protected void setBalance(double balance) { this.balance = balance; }
+    @Override
+    public String toString() {
+        return "Account Number: " + accountNumber + "\nBalance: " + balance;
+    }
 
-    public abstract void deposit(double amount) throws Exception;
-    public abstract void withdrawal(double amount) throws Exception;
+    // --- Abstract methods including date ---
+    public abstract void deposit(double amount, String date) throws Exception;
+    public abstract void withdrawal(double amount, String date) throws Exception;
     public abstract double balance();
 }
