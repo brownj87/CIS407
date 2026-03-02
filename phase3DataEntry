@@ -1,5 +1,4 @@
 package courseProject;
-
 import java.util.Scanner;
 
 public class DataEntry {
@@ -14,9 +13,10 @@ public class DataEntry {
         while (true) {
             System.out.print(prompt);
             try {
-                return Double.parseDouble(sc.nextLine().trim());
+                double value = Double.parseDouble(sc.nextLine().trim());
+                return value;
             } catch (NumberFormatException e) {
-                System.out.println("Invalid data type, please try again.");
+                System.out.println("Invalid data type. Please try again.");
             }
         }
     }
