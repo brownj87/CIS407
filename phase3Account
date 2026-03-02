@@ -2,7 +2,6 @@ package courseProject;
 
 public abstract class Account implements AccountInterface {
     private String accountNumber;
-    private double serviceFee;
     private double balance;
 
     public void setAccountNumber(String accountNumber) throws Exception {
@@ -15,25 +14,11 @@ public abstract class Account implements AccountInterface {
 
     public String getAccountNumber() { return accountNumber; }
 
-    public void setServiceFee(double serviceFee) throws Exception {
-        if (serviceFee < 0 || serviceFee > 10)
-            throw new Exception("Service Fee must be between $0 and $10.");
-        this.serviceFee = serviceFee;
-    }
-
-    public double getServiceFee() { return serviceFee; }
-
     public void setBalance(double balance) { this.balance = balance; }
     public double getBalance() { return balance; }
 
-    public abstract void deposit(double amount) throws Exception;
-    public abstract void withdrawal(double amount) throws Exception;
-    public abstract double balance();
-
     @Override
     public String toString() {
-        return "Account Number: " + accountNumber + "\n" +
-               "Service Fee   : $" + serviceFee + "\n" +
-               "Balance       : $" + balance;
+        return "Account Number: " + accountNumber + "\nBalance: $" + balance;
     }
 }
