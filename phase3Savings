@@ -1,29 +1,33 @@
 package courseProject;
 
-public class SavingsAccount extends Account {
-    private static final double SERVICE_FEE = 0.25;
-    private static final double INTEREST_RATE = 0.05; // 5%
+public class SavingsAccount extends Account implements AccountInterface {
+
+    private final double TRANSACTION_FEE = 0.25;
+    private final double INTEREST_RATE = 5.0; // 5%
 
     @Override
     public void deposit(double amount) throws Exception {
-        if (amount <= 0) throw new Exception("Invalid deposit amount.");
-        setBalance(getBalance() + amount - SERVICE_FEE);
+        if (amount <= 0) throw new Exception("Deposit must be positive.");
+        setBalance(getBalance() + amount - TRANSACTION_FEE);
     }
 
     @Override
     public void withdrawal(double amount) throws Exception {
-        if (amount <= 0) throw new Exception("Invalid withdrawal amount.");
-        double newBalance = getBalance() - amount - SERVICE_FEE;
-        if (newBalance < 0) throw new Exception("Insufficient funds. Withdrawal denied.");
-        setBalance(newBalance);
+        if (amount <= 0) throw new Exception("Withdrawal must be positive.");
+        if (amount + TRANSACTION_FEE > getBalance())
+            throw new Exception("Insufficient funds for withdrawal.");
+        setBalance(getBalance() - amount - TRANSACTION_FEE);
     }
 
     @Override
     public double balance() {
-        return getBalance() + getBalance() * INTEREST_RATE;
+        return getBalance();
     }
 
-    public double getInterestRate() {
-        return INTEREST_RATE;
+    // <-- ADD THIS METHOD -->
+    public void addInterest() {
+        double interest = getBalance() * (INTEREST_RATE / 100);
+        setBalance(getBalance() + interest);
+        System.out.printf("Interest of %.2f%% applied: %.2f\n", INTEREST_RATE, interest);
     }
 }
