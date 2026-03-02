@@ -54,7 +54,9 @@ public class BankAcctApp {
             Account acct = accounts.get(i);
             Customer cust = customers.get(i);
 
-            String more;
+            // Declare 'more' before the do-while loop
+            String more = "Y";
+
             do {
                 try {
                     // Account type verification
@@ -103,6 +105,7 @@ public class BankAcctApp {
                     System.out.println("Transaction failed: " + e.getMessage());
                 }
 
+                // Assign user input to 'more' inside the loop
                 more = DataEntry.getString("Another transaction for this account? (Y/N): ");
             } while (more.equalsIgnoreCase("Y"));
 
