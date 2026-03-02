@@ -1,4 +1,3 @@
-// Jordan Brown, CIS407, CourseProject
 package courseProject;
 
 import java.util.ArrayList;
@@ -15,76 +14,42 @@ public class BankAcctApp {
         // CUSTOMER & ACCOUNT INPUT
         // ---------------------------
         do {
-            // Customer
             Customer cust = new Customer();
             while (true) {
                 try {
-                    String input = courseProject.DataEntry.getString("Enter Customer ID (max 5): ");
-                    cust.setCustomerId(input);
+                    cust.setCustomerId(DataEntry.getString("Enter Customer ID (max 5): "));
+                    cust.setFirstName(DataEntry.getString("Enter First Name: "));
+                    cust.setLastName(DataEntry.getString("Enter Last Name: "));
                     break;
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                 }
             }
-            while (true) {
-                try {
-                    String input = courseProject.DataEntry.getString("Enter First Name (max 15): ");
-                    cust.setFirstName(input);
-                    break;
-                } catch (Exception e) {
-                    System.out.println("Error: " + e.getMessage());
-                }
-            }
-            while (true) {
-                try {
-                    String input = courseProject.DataEntry.getString("Enter Last Name (max 20): ");
-                    cust.setLastName(input);
-                    break;
-                } catch (Exception e) {
-                    System.out.println("Error: " + e.getMessage());
-                }
-            }
-
             customers.add(cust);
 
-            // Account
             Account acct = null;
             while (true) {
                 try {
-                    String type = courseProject.DataEntry.getString("Enter Account Type (CHK/SAV): ");
-                    if (type.equalsIgnoreCase("CHK"))
-                        acct = new CheckingAccount();
-                    else if (type.equalsIgnoreCase("SAV"))
-                        acct = new SavingsAccount();
-                    else
-                        throw new Exception("Account Type must be CHK or SAV.");
+                    String type = DataEntry.getString("Enter Account Type (CHK/SAV): ");
+                    if (type.equalsIgnoreCase("CHK")) acct = new CheckingAccount();
+                    else if (type.equalsIgnoreCase("SAV")) acct = new SavingsAccount();
+                    else throw new Exception("Account Type must be CHK or SAV.");
+
+                    acct.setAccountNumber(DataEntry.getString("Enter Account Number (max 5): "));
                     break;
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
                 }
             }
-
-            // Account number
-            while (true) {
-                try {
-                    String input = courseProject.DataEntry.getString("Enter Account Number (max 5): ");
-                    acct.setAccountNumber(input);
-                    break;
-                } catch (Exception e) {
-                    System.out.println("Error: " + e.getMessage());
-                }
-            }
-
             accounts.add(acct);
 
-            choice = courseProject.DataEntry.getString("Add another customer? (Y/N): ");
+            choice = DataEntry.getString("Add another customer? (Y/N): ");
         } while (choice.equalsIgnoreCase("Y"));
 
         // ---------------------------
         // TRANSACTIONS
         // ---------------------------
         System.out.println("\n=== TRANSACTIONS ===\n");
-
         for (int i = 0; i < accounts.size(); i++) {
             Account acct = accounts.get(i);
             Customer cust = customers.get(i);
@@ -92,30 +57,19 @@ public class BankAcctApp {
             String more;
             do {
                 try {
-                    String date = courseProject.DataEntry.getString("Enter Transaction Date (YYYY-MM-DD): ");
+                    String date = DataEntry.getString("Transaction Date (YYYY-MM-DD): ");
                     String type;
-                    do {
-                        type = courseProject.DataEntry.getString("Enter Transaction Type (DEP/WTH): ");
-                    } while (!type.equalsIgnoreCase("DEP") && !type.equalsIgnoreCase("WTH"));
+                    do { type = DataEntry.getString("Transaction Type (DEP/WTH): "); }
+                    while (!type.equalsIgnoreCase("DEP") && !type.equalsIgnoreCase("WTH"));
 
-                    double amount = courseProject.DataEntry.getDouble("Enter Transaction Amount: ");
+                    double amount = DataEntry.getDouble("Transaction Amount: ");
 
-                    // Perform transaction
-                    if (type.equalsIgnoreCase("DEP"))
-                        acct.deposit(amount);
-                    else
-                        acct.withdrawal(amount);
+                    if (type.equalsIgnoreCase("DEP")) acct.deposit(amount);
+                    else acct.withdrawal(amount);
 
-                    // Determine fees applied for reporting
-                    double fee = 0;
-                    if (acct instanceof CheckingAccount) {
-                        fee += 0.5;
-                        if (acct.getBalance() < 0) fee += 30; // overdraft
-                    } else {
-                        fee += 0.25;
-                    }
+                    double fee = (acct instanceof CheckingAccount ? 0.5 : 0.25);
+                    if (acct instanceof CheckingAccount && acct.balance() < 0) fee += 30;
 
-                    // Print transaction summary
                     System.out.println("----------------------------------------");
                     System.out.println("Customer ID       : " + cust.getCustomerId());
                     System.out.println("Account Number    : " + acct.getAccountNumber());
@@ -131,14 +85,12 @@ public class BankAcctApp {
                     System.out.println("Transaction failed: " + e.getMessage());
                 }
 
-                more = courseProject.DataEntry.getString("Do you want to perform another transaction for this account? (Y/N): ");
+                more = DataEntry.getString("Another transaction for this account? (Y/N): ");
             } while (more.equalsIgnoreCase("Y"));
 
-            // Apply interest
-            if (acct instanceof CheckingAccount)
-                ((CheckingAccount) acct).addInterest();
-            else
-                ((SavingsAccount) acct).addInterest();
+            // Add interest
+            if (acct instanceof CheckingAccount) ((CheckingAccount) acct).addInterest();
+            else ((SavingsAccount) acct).addInterest();
 
             System.out.println("Interest added. New Balance: $" + acct.balance() + "\n");
         }
@@ -146,14 +98,10 @@ public class BankAcctApp {
         // ---------------------------
         // FINAL SUMMARY
         // ---------------------------
-        System.out.println("\n========================================");
-        System.out.println("FINAL ACCOUNT SUMMARY");
-        System.out.println("========================================");
-
+        System.out.println("\n=== FINAL ACCOUNT SUMMARY ===\n");
         for (int i = 0; i < customers.size(); i++) {
             Customer cust = customers.get(i);
             Account acct = accounts.get(i);
-
             System.out.println("----------------------------------------");
             System.out.println("Customer ID   : " + cust.getCustomerId());
             System.out.println("Customer Name : " + cust.getFirstName() + " " + cust.getLastName());
