@@ -4,7 +4,6 @@ public abstract class Account implements AccountInterface {
     private String accountNumber;
     private double balance;
 
-    // Account Number validation
     public void setAccountNumber(String accountNumber) throws Exception {
         if (accountNumber == null || accountNumber.isEmpty())
             throw new Exception("Account Number cannot be blank.");
@@ -14,11 +13,11 @@ public abstract class Account implements AccountInterface {
     }
     public String getAccountNumber() { return accountNumber; }
 
-    // Balance getter/setter
+    // FIX: make public
     public double getBalance() { return balance; }
+
     protected void setBalance(double balance) { this.balance = balance; }
 
-    // Abstract methods
     public abstract void deposit(double amount) throws Exception;
     public abstract void withdrawal(double amount) throws Exception;
     public abstract double balance();
