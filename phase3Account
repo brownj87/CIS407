@@ -3,22 +3,31 @@ package courseProject;
 public abstract class Account implements AccountInterface {
     private String accountNumber;
     private double balance;
+    private double serviceFee;
+    private double interestRate;
+    private double overdraftFee;
 
+    // Getters and setters
+    public String getAccountNumber() { return accountNumber; }
     public void setAccountNumber(String accountNumber) throws Exception {
-        if (accountNumber == null || accountNumber.isEmpty())
-            throw new Exception("Account Number cannot be blank.");
-        if (accountNumber.length() > 5)
-            throw new Exception("Account Number cannot exceed 5 characters.");
+        if (accountNumber == null || accountNumber.isEmpty()) throw new Exception("Account Number cannot be blank.");
         this.accountNumber = accountNumber;
     }
 
-    public String getAccountNumber() { return accountNumber; }
-
+    public double getBalanceValue() { return balance; }
     public void setBalance(double balance) { this.balance = balance; }
-    public double getBalance() { return balance; }
+
+    public double getServiceFee() { return serviceFee; }
+    public void setServiceFee(double serviceFee) { this.serviceFee = serviceFee; }
+
+    public double getInterestRate() { return interestRate; }
+    public void setInterestRate(double interestRate) { this.interestRate = interestRate; }
+
+    public double getOverdraftFee() { return overdraftFee; }
+    public void setOverdraftFee(double overdraftFee) { this.overdraftFee = overdraftFee; }
 
     @Override
     public String toString() {
-        return "Account Number: " + accountNumber + "\nBalance: $" + balance;
+        return "Account Number: " + accountNumber + ", Balance: $" + String.format("%.2f", balance);
     }
 }
