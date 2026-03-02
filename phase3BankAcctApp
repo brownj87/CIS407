@@ -61,18 +61,41 @@ public class BankAcctApp {
             Account acct = accounts.get(i);
             Customer cust = customers.get(i);
             String more;
+
+            System.out.println("\nCustomer ID: " + cust.getCustomerId()
+                    + ", Account Number: " + acct.getAccountNumber()
+                    + ", Account Type: " + (acct instanceof CheckingAccount ? "Checking" : "Savings"));
+
             do {
+                String transType = "";
+                // --- Loop until valid transaction type ---
+                while (true) {
+                    try {
+                        transType = DataEntry.getString("Enter transaction type (DEP/WTH): ").toUpperCase();
+                        if (!transType.equals("DEP") && !transType.equals("WTH"))
+                            throw new Exception("Invalid transaction type.");
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage() + " Please try again.");
+                    }
+                }
+
+                double amount = 0;
+                // --- Loop until valid transaction amount ---
+                while (true) {
+                    try {
+                        amount = DataEntry.getDouble("Enter transaction amount: ");
+                        if (amount <= 0) throw new Exception("Amount must be greater than 0.");
+                        break;
+                    } catch (Exception e) {
+                        System.out.println("Error: " + e.getMessage() + " Please try again.");
+                    }
+                }
+
+                // --- Apply transaction ---
                 try {
-                    System.out.println("\nCustomer ID: " + cust.getCustomerId()
-                            + ", Account Number: " + acct.getAccountNumber()
-                            + ", Account Type: " + (acct instanceof CheckingAccount ? "Checking" : "Savings"));
-
-                    double amount = DataEntry.getDouble("Enter transaction amount: ");
-                    String transType = DataEntry.getString("Enter transaction type (DEP/WTH): ").toUpperCase();
-
                     if (transType.equals("DEP")) acct.deposit(amount);
-                    else if (transType.equals("WTH")) acct.withdrawal(amount);
-                    else throw new Exception("Invalid transaction type.");
+                    else acct.withdrawal(amount);
 
                     System.out.printf("Transaction complete. Current Balance: %.2f\n", acct.getBalance());
                 } catch (Exception e) {
@@ -81,6 +104,15 @@ public class BankAcctApp {
 
                 more = DataEntry.getString("Another transaction for this account? (Y/N): ");
             } while (more.equalsIgnoreCase("Y"));
+
+            // --- Ask to add interest ---
+            String addInterest = DataEntry.getString("Add interest for this account? (Y/N): ");
+            if (addInterest.equalsIgnoreCase("Y")) {
+                if (acct instanceof CheckingAccount) ((CheckingAccount) acct).addInterest();
+                else if (acct instanceof SavingsAccount) ((SavingsAccount) acct).addInterest();
+
+                System.out.printf("Interest added. New Balance: %.2f\n", acct.getBalance());
+            }
         }
 
         // ---------------------------
