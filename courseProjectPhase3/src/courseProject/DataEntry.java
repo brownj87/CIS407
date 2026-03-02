@@ -1,0 +1,24 @@
+// Jordan Brown, CIS407, CourseProject
+package courseProject;
+import java.util.Scanner;
+
+public class DataEntry {
+    private static Scanner sc = new Scanner(System.in);
+
+    public static String getString(String prompt) {
+        System.out.print(prompt);
+        return sc.nextLine().trim();
+    }
+
+    public static double getDouble(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            try {
+                double value = Double.parseDouble(sc.nextLine().trim());
+                return value;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid data type. Please try again.");
+            }
+        }
+    }
+}

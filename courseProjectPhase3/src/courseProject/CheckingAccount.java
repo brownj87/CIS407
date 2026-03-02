@@ -1,0 +1,40 @@
+// Jordan Brown, CIS407, CourseProject
+package courseProject;
+
+public class CheckingAccount extends Account implements AccountInterface {
+
+    private final double TRANSACTION_FEE = 0.50;
+    private final double OVERDRAFT_FEE = 30.0;
+    private final double INTEREST_RATE = 2.0; // 2%
+
+    @Override
+    public void deposit(double amount, String date) throws Exception {
+        if (amount <= 0) throw new Exception("Deposit must be positive.");
+        setBalance(getBalance() + amount - TRANSACTION_FEE);
+        System.out.println("Transaction date: " + date + ", Deposit: " + amount + ", Fee: " + TRANSACTION_FEE);
+        if (getBalance() < 0) {
+            setBalance(getBalance() - OVERDRAFT_FEE);
+            System.out.println("Overdraft fee applied: $30");
+        }
+    }
+
+    @Override
+    public void withdrawal(double amount, String date) throws Exception {
+        if (amount <= 0) throw new Exception("Withdrawal must be positive.");
+        setBalance(getBalance() - amount - TRANSACTION_FEE);
+        System.out.println("Transaction date: " + date + ", Withdrawal: " + amount + ", Fee: " + TRANSACTION_FEE);
+        if (getBalance() < 0) {
+            setBalance(getBalance() - OVERDRAFT_FEE);
+            System.out.println("Overdraft fee applied: $30");
+        }
+    }
+
+    @Override
+    public double balance() { return getBalance(); }
+
+    public void addInterest() {
+        double interest = getBalance() * (INTEREST_RATE / 100);
+        setBalance(getBalance() + interest);
+        System.out.printf("Interest of %.2f%% applied: %.2f\n", INTEREST_RATE, interest);
+    }
+}
