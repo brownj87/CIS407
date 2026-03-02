@@ -19,7 +19,7 @@ public class BankAcctApp {
             Customer cust = new Customer();
             while (true) {
                 try {
-                    String input = DataEntry.getString("Enter Customer ID (max 5): ");
+                    String input = courseProject.DataEntry.getString("Enter Customer ID (max 5): ");
                     cust.setCustomerId(input);
                     break;
                 } catch (Exception e) {
@@ -28,7 +28,7 @@ public class BankAcctApp {
             }
             while (true) {
                 try {
-                    String input = DataEntry.getString("Enter First Name (max 15): ");
+                    String input = courseProject.DataEntry.getString("Enter First Name (max 15): ");
                     cust.setFirstName(input);
                     break;
                 } catch (Exception e) {
@@ -37,7 +37,7 @@ public class BankAcctApp {
             }
             while (true) {
                 try {
-                    String input = DataEntry.getString("Enter Last Name (max 20): ");
+                    String input = courseProject.DataEntry.getString("Enter Last Name (max 20): ");
                     cust.setLastName(input);
                     break;
                 } catch (Exception e) {
@@ -51,7 +51,7 @@ public class BankAcctApp {
             Account acct = null;
             while (true) {
                 try {
-                    String type = DataEntry.getString("Enter Account Type (CHK/SAV): ");
+                    String type = courseProject.DataEntry.getString("Enter Account Type (CHK/SAV): ");
                     if (type.equalsIgnoreCase("CHK"))
                         acct = new CheckingAccount();
                     else if (type.equalsIgnoreCase("SAV"))
@@ -67,7 +67,7 @@ public class BankAcctApp {
             // Account number
             while (true) {
                 try {
-                    String input = DataEntry.getString("Enter Account Number (max 5): ");
+                    String input = courseProject.DataEntry.getString("Enter Account Number (max 5): ");
                     acct.setAccountNumber(input);
                     break;
                 } catch (Exception e) {
@@ -77,7 +77,7 @@ public class BankAcctApp {
 
             accounts.add(acct);
 
-            choice = DataEntry.getString("Add another customer? (Y/N): ");
+            choice = courseProject.DataEntry.getString("Add another customer? (Y/N): ");
         } while (choice.equalsIgnoreCase("Y"));
 
         // ---------------------------
@@ -92,13 +92,13 @@ public class BankAcctApp {
             String more;
             do {
                 try {
-                    String date = DataEntry.getString("Enter Transaction Date (YYYY-MM-DD): ");
+                    String date = courseProject.DataEntry.getString("Enter Transaction Date (YYYY-MM-DD): ");
                     String type;
                     do {
-                        type = DataEntry.getString("Enter Transaction Type (DEP/WTH): ");
+                        type = courseProject.DataEntry.getString("Enter Transaction Type (DEP/WTH): ");
                     } while (!type.equalsIgnoreCase("DEP") && !type.equalsIgnoreCase("WTH"));
 
-                    double amount = DataEntry.getDouble("Enter Transaction Amount: ");
+                    double amount = courseProject.DataEntry.getDouble("Enter Transaction Amount: ");
 
                     // Perform transaction
                     if (type.equalsIgnoreCase("DEP"))
@@ -131,7 +131,7 @@ public class BankAcctApp {
                     System.out.println("Transaction failed: " + e.getMessage());
                 }
 
-                more = DataEntry.getString("Do you want to perform another transaction for this account? (Y/N): ");
+                more = courseProject.DataEntry.getString("Do you want to perform another transaction for this account? (Y/N): ");
             } while (more.equalsIgnoreCase("Y"));
 
             // Apply interest
