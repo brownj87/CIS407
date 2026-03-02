@@ -1,0 +1,7 @@
+package courseProject;
+
+public interface AccountInterface {
+    void deposit(double amount) throws Exception;
+    void withdrawal(double amount) throws Exception;
+    double balance();
+}
