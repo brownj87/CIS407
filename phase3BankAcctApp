@@ -57,52 +57,37 @@ public class BankAcctApp {
             String more;
             do {
                 try {
-                    // 1. Specify account type for transaction
+                    // Account type verification
                     String accType;
                     do {
                         accType = DataEntry.getString("Enter Account Type for Transaction (CHK/SAV): ");
-                        if (!accType.equalsIgnoreCase("CHK") && !accType.equalsIgnoreCase("SAV")) {
+                        if (!accType.equalsIgnoreCase("CHK") && !accType.equalsIgnoreCase("SAV"))
                             System.out.println("Invalid account type, please enter CHK or SAV.");
-                        }
                     } while (!accType.equalsIgnoreCase("CHK") && !accType.equalsIgnoreCase("SAV"));
 
-                    // Check that transaction matches the account object type
                     if ((acct instanceof CheckingAccount && accType.equalsIgnoreCase("SAV")) ||
                         (acct instanceof SavingsAccount && accType.equalsIgnoreCase("CHK"))) {
                         System.out.println("This transaction does not match the account type. Try again.");
                         continue;
                     }
 
-                    // 2. Transaction date
                     String date = DataEntry.getString("Transaction Date (YYYY-MM-DD): ");
 
-                    // 3. Transaction type DEP/WTH
                     String type;
                     do {
                         type = DataEntry.getString("Transaction Type (DEP/WTH): ");
-                        if (!type.equalsIgnoreCase("DEP") && !type.equalsIgnoreCase("WTH")) {
+                        if (!type.equalsIgnoreCase("DEP") && !type.equalsIgnoreCase("WTH"))
                             System.out.println("Invalid transaction type, please enter DEP or WTH.");
-                        }
                     } while (!type.equalsIgnoreCase("DEP") && !type.equalsIgnoreCase("WTH"));
 
-                    // 4. Transaction amount
-                    double amount;
-                    try {
-                        amount = DataEntry.getDouble("Transaction Amount: ");
-                    } catch (Exception e) {
-                        System.out.println("Invalid data type, please try again.");
-                        continue;
-                    }
+                    double amount = DataEntry.getDouble("Transaction Amount: ");
 
-                    // 5. Perform transaction
                     if (type.equalsIgnoreCase("DEP")) acct.deposit(amount);
                     else acct.withdrawal(amount);
 
-                    // 6. Calculate fees
                     double fee = (acct instanceof CheckingAccount ? 0.5 : 0.25);
                     if (acct instanceof CheckingAccount && acct.balance() < 0) fee += 30;
 
-                    // 7. Show transaction details
                     System.out.println("----------------------------------------");
                     System.out.println("Customer ID       : " + cust.getCustomerId());
                     System.out.println("Account Number    : " + acct.getAccountNumber());
@@ -121,7 +106,6 @@ public class BankAcctApp {
                 more = DataEntry.getString("Another transaction for this account? (Y/N): ");
             } while (more.equalsIgnoreCase("Y"));
 
-            // 8. Optionally add interest
             String addInterest = DataEntry.getString("Add interest earned to this account? (Y/N): ");
             if (addInterest.equalsIgnoreCase("Y")) {
                 if (acct instanceof CheckingAccount) ((CheckingAccount) acct).addInterest();
