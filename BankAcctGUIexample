@@ -1,0 +1,241 @@
+// Jordan Brown, CIS407, CourseProject
+package courseProject;
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+
+public class BankAcctGUI extends JFrame {
+
+    private ArrayList<Customer> customers = new ArrayList<>();
+    private ArrayList<Account> accounts = new ArrayList<>();
+
+    // Customer fields
+    private JTextField txtCustomerId = new JTextField(5);
+    private JTextField txtSSN = new JTextField(9);
+    private JTextField txtFirstName = new JTextField(15);
+    private JTextField txtLastName = new JTextField(20);
+    private JTextField txtStreet = new JTextField(20);
+    private JTextField txtCity = new JTextField(20);
+    private JComboBox<String> cbState = new JComboBox<>(new String[]{
+            "AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+            "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+            "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"
+    });
+    private JTextField txtZip = new JTextField(5);
+    private JTextField txtPhone = new JTextField(10);
+
+    // Account fields
+    private JTextField txtAccountNumber = new JTextField(5);
+    private JRadioButton rbChecking = new JRadioButton("Checking");
+    private JRadioButton rbSavings = new JRadioButton("Savings");
+    private ButtonGroup accountGroup = new ButtonGroup();
+
+    // Transaction fields
+    private JTextField txtTransactionAmount = new JTextField(10);
+    private JTextField txtTransactionDate = new JTextField(10);
+    private JRadioButton rbDeposit = new JRadioButton("Deposit");
+    private JRadioButton rbWithdrawal = new JRadioButton("Withdrawal");
+    private ButtonGroup transactionGroup = new ButtonGroup();
+
+    // Output
+    private JLabel lblOutput = new JLabel("<html></html>");
+    private JLabel lblStatus = new JLabel(" ");
+
+    // Buttons
+    private JButton btnTransaction;
+
+    public BankAcctGUI() {
+        setTitle("Course Project Banking Application");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        // Customer Panel
+        JPanel customerPanel = new JPanel(new GridLayout(10,2,5,5));
+        customerPanel.setBorder(BorderFactory.createTitledBorder("Customer Info"));
+        customerPanel.add(new JLabel("Customer ID:")); customerPanel.add(txtCustomerId);
+        customerPanel.add(new JLabel("SSN:")); customerPanel.add(txtSSN);
+        customerPanel.add(new JLabel("First Name:")); customerPanel.add(txtFirstName);
+        customerPanel.add(new JLabel("Last Name:")); customerPanel.add(txtLastName);
+        customerPanel.add(new JLabel("Street:")); customerPanel.add(txtStreet);
+        customerPanel.add(new JLabel("City:")); customerPanel.add(txtCity);
+        customerPanel.add(new JLabel("State:")); customerPanel.add(cbState);
+        customerPanel.add(new JLabel("Zip:")); customerPanel.add(txtZip);
+        customerPanel.add(new JLabel("Phone:")); customerPanel.add(txtPhone);
+
+        // Account Panel
+        JPanel accountPanel = new JPanel(new GridLayout(2,2,5,5));
+        accountPanel.setBorder(BorderFactory.createTitledBorder("Account Info"));
+        accountGroup.add(rbChecking);
+        accountGroup.add(rbSavings);
+        rbChecking.setSelected(true);
+        accountPanel.add(new JLabel("Account Number:")); accountPanel.add(txtAccountNumber);
+        accountPanel.add(rbChecking); accountPanel.add(rbSavings);
+
+        // Transaction Panel
+        JPanel transactionPanel = new JPanel(new GridLayout(3,2,5,5));
+        transactionPanel.setBorder(BorderFactory.createTitledBorder("Transaction"));
+        transactionGroup.add(rbDeposit);
+        transactionGroup.add(rbWithdrawal);
+        rbDeposit.setSelected(true);
+        transactionPanel.add(new JLabel("Transaction Amount:")); transactionPanel.add(txtTransactionAmount);
+        transactionPanel.add(new JLabel("Transaction Date (YYYY-MM-DD):")); transactionPanel.add(txtTransactionDate);
+        transactionPanel.add(rbDeposit); transactionPanel.add(rbWithdrawal);
+
+        // Buttons Panel
+        JPanel buttonPanel = new JPanel(new GridLayout(1,4,5,5));
+        JButton btnAddCustomer = new JButton("Add New Customer & Account");
+        JButton btnDisplayData = new JButton("Display Customer & Account");
+        btnTransaction = new JButton("Perform Transaction");
+        btnTransaction.setEnabled(false); // disabled initially
+        JButton btnClear = new JButton("Clear");
+        buttonPanel.add(btnAddCustomer); buttonPanel.add(btnDisplayData); buttonPanel.add(btnTransaction); buttonPanel.add(btnClear);
+
+        // Output Panel
+        JPanel outputPanel = new JPanel(new BorderLayout());
+        outputPanel.setBorder(BorderFactory.createTitledBorder("Output"));
+        lblOutput.setVerticalAlignment(SwingConstants.TOP);
+        JScrollPane scroll = new JScrollPane(lblOutput);
+        outputPanel.add(scroll, BorderLayout.CENTER);
+        outputPanel.add(lblStatus, BorderLayout.SOUTH);
+
+        // Main Layout
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        inputPanel.add(customerPanel, BorderLayout.NORTH);
+        inputPanel.add(accountPanel, BorderLayout.CENTER);
+        inputPanel.add(transactionPanel, BorderLayout.SOUTH);
+
+        add(inputPanel, BorderLayout.NORTH);
+        add(buttonPanel, BorderLayout.CENTER);
+        add(outputPanel, BorderLayout.SOUTH);
+
+        pack();
+        setLocationRelativeTo(null);
+        setVisible(true);
+
+        // Button Actions
+        btnAddCustomer.addActionListener(e -> addCustomerAccount());
+        btnDisplayData.addActionListener(e -> displayCustomerAccount());
+        btnTransaction.addActionListener(e -> performTransaction());
+        btnClear.addActionListener(e -> clearFields());
+    }
+
+    private void addCustomerAccount() {
+        try {
+            Customer cust = new Customer();
+            cust.setCustomerId(txtCustomerId.getText());
+            cust.setSsn(txtSSN.getText());
+            cust.setFirstName(txtFirstName.getText());
+            cust.setLastName(txtLastName.getText());
+            cust.setStreet(txtStreet.getText());
+            cust.setCity(txtCity.getText());
+            cust.setState((String)cbState.getSelectedItem());
+            cust.setZip(txtZip.getText());
+            cust.setPhone(txtPhone.getText());
+            customers.add(cust);
+
+            Account acct;
+            if (rbChecking.isSelected()) acct = new CheckingAccount();
+            else acct = new SavingsAccount();
+            acct.setAccountNumber(txtAccountNumber.getText());
+            acct.setBalance(0);
+            accounts.add(acct);
+
+            lblStatus.setText("Customer and Account added successfully!");
+            btnTransaction.setEnabled(true); // enable transaction button
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Input Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void displayCustomerAccount() {
+        String custId = txtCustomerId.getText();
+        for (int i = 0; i < customers.size(); i++) {
+            Customer cust = customers.get(i);
+            if (cust.getCustomerId().equals(custId)) {
+                Account acct = accounts.get(i);
+                String type = acct instanceof CheckingAccount ? "Checking" : "Savings";
+                lblOutput.setText("<html>" + cust.toString().replaceAll("\n","<br>") +
+                        "<br>Account Number: " + acct.getAccountNumber() +
+                        "<br>Account Type: " + type +
+                        "<br>Balance: " + acct.getBalance() + "</html>");
+                lblStatus.setText("Customer data displayed successfully!");
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Customer ID not found.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void performTransaction() {
+        String custId = txtCustomerId.getText();
+        for (int i = 0; i < customers.size(); i++) {
+            Customer cust = customers.get(i);
+            if (cust.getCustomerId().equals(custId)) {
+                Account acct = accounts.get(i);
+                try {
+                    double amount = Double.parseDouble(txtTransactionAmount.getText());
+                    String date = txtTransactionDate.getText();
+                    double oldBalance = acct.getBalance();
+                    double fee = 0;
+                    double overdraft = 0;
+
+                    if (rbDeposit.isSelected()) {
+                        acct.deposit(amount, date);
+                        fee = oldBalance + amount - acct.getBalance();
+                    } else {
+                        acct.withdrawal(amount, date);
+                        fee = oldBalance - acct.getBalance();
+                        if (acct instanceof CheckingAccount && acct.getBalance() < 0) overdraft = 30;
+                    }
+
+                    String type = acct instanceof CheckingAccount ? "Checking" : "Savings";
+                    lblOutput.setText("<html>Customer ID: " + cust.getCustomerId() +
+                            "<br>Account Number: " + acct.getAccountNumber() +
+                            "<br>Account Type: " + type +
+                            "<br>Transaction Date: " + date +
+                            "<br>Transaction Type: " + (rbDeposit.isSelected() ? "Deposit" : "Withdrawal") +
+                            "<br>Transaction Amount: " + amount +
+                            "<br>Fees/Charges: " + fee +
+                            (overdraft>0 ? "<br>Overdraft Fee: " + overdraft : "") +
+                            "<br>Balance: " + acct.getBalance() + "</html>");
+                    lblStatus.setText("Transaction completed successfully!");
+
+                    // Clear transaction fields after transaction
+                    txtTransactionAmount.setText("");
+                    txtTransactionDate.setText("");
+
+                } catch (NumberFormatException nfe) {
+                    JOptionPane.showMessageDialog(this, "Transaction amount must be numeric.", "Input Error", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(this, ex.getMessage(), "Transaction Error", JOptionPane.ERROR_MESSAGE);
+                }
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Customer ID not found.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+
+    private void clearFields() {
+        txtCustomerId.setText("");
+        txtSSN.setText("");
+        txtFirstName.setText("");
+        txtLastName.setText("");
+        txtStreet.setText("");
+        txtCity.setText("");
+        txtZip.setText("");
+        txtPhone.setText("");
+        txtAccountNumber.setText("");
+        txtTransactionAmount.setText("");
+        txtTransactionDate.setText("");
+        rbChecking.setSelected(true);
+        rbDeposit.setSelected(true);
+        lblOutput.setText("<html></html>");
+        lblStatus.setText("Fields cleared.");
+        btnTransaction.setEnabled(false); // disable transaction button
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(BankAcctGUI::new);
+    }
+}
